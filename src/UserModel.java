@@ -1,10 +1,20 @@
 public class UserModel {
     private DatabaseModel database;
+    private static int loggedInUserId; // This stores the logged-in user's ID
 
     public UserModel() {
         this.database = new DatabaseModel();
     }
+    // Setter to update the logged-in user ID during login
+    public static void setLoggedInUserId(int userId) {
+        loggedInUserId = userId;
+    }
 
+    // Getter to retrieve the logged-in user ID
+    public  int LoggedInUserId(String username,String password) {
+    	
+        return database.loggedInUserId( username, password);
+    }
     public boolean loginUser(String username, String password) {
         return database.verifyLogin(username, password);
     }

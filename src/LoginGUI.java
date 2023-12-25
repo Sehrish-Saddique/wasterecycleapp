@@ -21,7 +21,7 @@ public class LoginGUI extends JFrame implements ActionListener {
     private JButton registerLink;
     private JButton loginLink;
     private UserModel userModel;
-
+    public static int userId;
     public LoginGUI() {
         userModel = new UserModel();
 
@@ -151,9 +151,10 @@ public class LoginGUI extends JFrame implements ActionListener {
                }
                
             boolean registered = userModel.registerUser(username, password, email);
-
+            
             if (registered) {
                 JOptionPane.showMessageDialog(this, "Registration successful!");
+                userId = userModel.LoggedInUserId(username,password);
             } else {
                 JOptionPane.showMessageDialog(this, "Registration failed!");
             }
