@@ -119,18 +119,19 @@ public class DatabaseModel {
     
  // Method to update a product in the database
     public boolean updateProduct(Product product) {
-        String query = "UPDATE products SET name = ?, price = ? WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, product.getName());
-            statement.setDouble(2, product.getPrice());
-            statement.setString(3, product.getdesc());
+    	 String query = "UPDATE products SET product_name = ?, description = ?, price = ? WHERE product_id = 2";
+    	    try (PreparedStatement statement = connection.prepareStatement(query)) {
+    	        statement.setString(1, product.getName());
+    	        statement.setString(2, product.getdesc());
+    	        statement.setDouble(3, product.getPrice());
+    	        statement.setInt(4, product.getId()); // Assuming there's a method like getId() in the Product class
 
-            int rowsUpdated = statement.executeUpdate();
-            return rowsUpdated > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+    	        int rowsUpdated = statement.executeUpdate();
+    	        return rowsUpdated > 0;
+    	    } catch (SQLException e) {
+    	        e.printStackTrace();
+    	        return false;
+    	    }
     }
     // Method to delete a product from the database
     public boolean deleteProduct(int productId) {

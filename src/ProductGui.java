@@ -93,7 +93,7 @@ public class ProductGui extends JFrame implements ActionListener {
 
     private void openUpdateProductScreen() {
         String productName = JOptionPane.showInputDialog("Enter updated product name:");
-        String productdesc = JOptionPane.showInputDialog("Enter updated product name:");
+        String productdesc = JOptionPane.showInputDialog("Enter updated product Description:");
         String priceStr = JOptionPane.showInputDialog("Enter updated product price:");
         try {
             double price = Double.parseDouble(priceStr);

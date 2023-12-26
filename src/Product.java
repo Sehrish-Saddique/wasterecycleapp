@@ -16,7 +16,19 @@ public class Product {
         Product.database = new DatabaseModel(); // Initialize DatabaseModel
 
     }
+    private int product_id; // Assume product_id exists as a field
 
+    // Other properties, constructor, and methods...
+
+    // Setter method for product_id
+    public void setId(int id) {
+        this.product_id = id;
+    }
+
+    // Getter method for product_id
+    public int getId() {
+        return product_id;
+    }
     // Getters and setters
     // (You can generate these using your IDE or write them manually)
 
@@ -78,7 +90,7 @@ public class Product {
 	}
 	
 	public static int userId() {
-		return database.loggedInUserId("user2","password2");
+		return database.loggedInUserId("user1","password1");
 	}
 	 public static List<Product> getProductsByUserId(int userId) {
 	        // Fetch the products sold by the user from the database using userId
