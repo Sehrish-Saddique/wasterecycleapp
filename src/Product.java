@@ -1,20 +1,24 @@
  import java.util.ArrayList;
 import java.util.List;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import javax.swing.*;
 
 public class Product {
     private String desc;
     private String name;
     private double price;
     private static DatabaseModel database;
+    private String imagePath="src/images/1.png";
 
     private int  userId;
     // Constructor
-    public Product(String desc, String name, double price) {
+    public Product(String desc, String name, double price, String imagePath) {
         this.desc = desc;
         this.name = name;
         this.price = price;
+        this.imagePath = imagePath;
         Product.database = new DatabaseModel(); // Initialize DatabaseModel
-
     }
     private int product_id; // Assume product_id exists as a field
 
@@ -75,20 +79,33 @@ public class Product {
         return database.updateProduct(this);
     }
 
-    public boolean deleteProduct() {
-        return database.deleteProduct(1);
+    public static boolean deleteProduct(int id) {
+        return database.deleteProduct(id);
     }
 
 	public static Product getProductById(int i) {
 		// TODO Auto-generated method stub
 		return database.getProductById(i);
 	}
+	public void setImagePath() {
+		JFileChooser fileChooser = new JFileChooser();
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif");
+	    fileChooser.setFileFilter(filter);
 
-	public static boolean deleteProduct(int i) {
-		// TODO Auto-generated method stub
-		return false;
+	    int result = fileChooser.showOpenDialog(null);
+	    if (result == JFileChooser.APPROVE_OPTION) {
+	        File selectedFile = fileChooser.getSelectedFile();
+	        this.imagePath = selectedFile.getAbsolutePath();
+	    }
+
+	     
 	}
-	
+
+	 
+	 public String getImagePath() {
+		 
+	        return this.imagePath;
+	    }
 	public static int userId() {
 		return database.loggedInUserId("user1","password1");
 	}

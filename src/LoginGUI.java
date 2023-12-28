@@ -218,6 +218,9 @@ public class LoginGUI extends JFrame implements ActionListener, ItemListener {
             if (loggedIn) {
                 JOptionPane.showMessageDialog(this, "Login successful!");
                 // Perform actions after successful login
+                openHomePage();
+
+                
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid username or password!");
             }
@@ -239,8 +242,13 @@ public class LoginGUI extends JFrame implements ActionListener, ItemListener {
             }
         }
     }
+    private void openHomePage() {
+        SwingUtilities.invokeLater(HomePageGUI::new);
+        dispose(); // Close the login window after successful login
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(LoginGUI::new);
+      
     }
 }

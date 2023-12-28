@@ -12,6 +12,7 @@ public class HomePageGUI {
     };
 
     private final JPanel content;
+    private JPanel currentContent;
 
     public HomePageGUI() {
         JFrame frame = new JFrame("Home Page");
@@ -19,69 +20,59 @@ public class HomePageGUI {
         frame.setLayout(new BorderLayout());
         frame.setSize(1200, 800);
 
-        // Navbar
         JPanel navBar = createNavBar();
         frame.add(navBar, BorderLayout.NORTH);
 
-        // Content
         content = createContent();
         JScrollPane scrollPane = new JScrollPane(content);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        // Bottom Bar
         JPanel bottomBar = createBottomBar();
         frame.add(bottomBar, BorderLayout.SOUTH);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        currentContent = content;
     }
 
     private JPanel createNavBar() {
         JPanel navBar = new JPanel();
         navBar.setLayout(new BorderLayout());
-        navBar.setBackground(new Color(34, 139, 34)); // Dark green background color
+        navBar.setBackground(new Color(34, 139, 34));
 
-        // Logo icon
         ImageIcon logoIcon = new ImageIcon("src/images/logo.jpg");
         logoIcon = new ImageIcon(logoIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
         JLabel logoLabel = new JLabel(logoIcon);
 
-        // Title label
         JLabel titleLabel = new JLabel("Waste Management System");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
 
-        // Search bar
-        JTextField searchBar = new JTextField(15); // Increased the size of the input bar
+        JTextField searchBar = new JTextField(15);
         searchBar.setForeground(Color.BLACK);
-        searchBar.setBackground(new Color(255, 255, 224)); // Light yellow background color
+        searchBar.setBackground(new Color(255, 255, 224));
 
-        // Search button
         JButton searchButton = new JButton("Search");
         searchButton.setForeground(Color.WHITE);
-        searchButton.setBackground(new Color(0, 102, 0)); // Dark green button color
+        searchButton.setBackground(new Color(0, 102, 0));
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle search button click
                 String searchText = searchBar.getText();
                 JOptionPane.showMessageDialog(null, "Search clicked with input: " + searchText);
             }
         });
 
-        // Notification button
         JButton notificationButton = new JButton("Notifications");
         notificationButton.setForeground(Color.WHITE);
-        notificationButton.setBackground(new Color(0, 102, 0)); // Dark green button color
+        notificationButton.setBackground(new Color(0, 102, 0));
         notificationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle notification button click
                 JOptionPane.showMessageDialog(null, "Notifications clicked!");
             }
         });
 
-        // Panel for notification and search components
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         rightPanel.add(searchBar);
@@ -97,12 +88,11 @@ public class HomePageGUI {
 
     private JPanel createContent() {
         JPanel content = new JPanel();
-        content.setLayout(new GridLayout(0, 3, 20, 20)); // Added gaps between panels
+        content.setLayout(new GridLayout(0, 3, 20, 20));
 
         Random random = new Random();
 
-        // Add multiple items (e.g., images or panels) to the content
-        for (int i = 0; i < 18; i++) { // Display 18 items
+        for (int i = 0; i < 18; i++) {
             int randomIndex = random.nextInt(itemImageNames.length);
             String itemName = "Item " + (i + 1);
             JButton itemButton = createItemButton(itemImageNames[randomIndex], itemName);
@@ -121,14 +111,13 @@ public class HomePageGUI {
         itemButton.setHorizontalTextPosition(SwingConstants.CENTER);
         itemButton.setFont(new Font("Arial", Font.PLAIN, 16));
         itemButton.setForeground(Color.BLACK);
-        itemButton.setBackground(Color.WHITE); // White background color for item box
-        itemButton.setBorder(BorderFactory.createEmptyBorder()); // Set border to zero
+        itemButton.setBackground(Color.WHITE);
+        itemButton.setBorder(BorderFactory.createEmptyBorder());
 
         itemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle item button click
-                JOptionPane.showMessageDialog(null, buttonText + " clicked!");
+                //JOptionPane.showMessageDialog(null, buttonText + " clicked!");
             }
         });
 
@@ -137,9 +126,8 @@ public class HomePageGUI {
 
     private JPanel createBottomBar() {
         JPanel bottomBar = new JPanel();
-        bottomBar.setBackground(new Color(34, 139, 34)); // Dark green background color
+        bottomBar.setBackground(new Color(34, 139, 34));
 
-        // Buy, Sell, Learn, Settings buttons
         JButton buyButton = createBottomBarButton("Buy");
         JButton sellButton = createBottomBarButton("Sell");
         JButton learnButton = createBottomBarButton("Learn");
@@ -150,6 +138,13 @@ public class HomePageGUI {
         bottomBar.add(learnButton);
         bottomBar.add(settingsButton);
 
+        sellButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateContentForSell();
+            }
+        });
+
         return bottomBar;
     }
 
@@ -158,13 +153,64 @@ public class HomePageGUI {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle bottom bar button click
-                JOptionPane.showMessageDialog(null, buttonText + " button clicked!");
+               // JOptionPane.showMessageDialog(null, buttonText + " button clicked!");
+                if(buttonText=="Learn")
+                {
+                    openLearnScreen();
+
+                }
+                if(buttonText=="Buy")
+                {
+                	updateContentForBuy();
+
+                }
+                if(buttonText=="Settings")
+                {
+                	new SettingsPage();
+
+                }
             }
         });
         return button;
     }
 
+    private void updateContentForSell() {
+        content.removeAll();
+
+        JPanel sellContent = new JPanel();
+        sellContent.setLayout(new GridLayout(0, 3, 20, 20));
+
+        // Assuming ProductGui is a JPanel class containing product information
+        ProductGui productGui = new ProductGui(); // Create an instance of ProductGui
+
+        // Add ProductGui panel or components to sellContent
+        sellContent.add(productGui);
+
+        JScrollPane scrollPane = new JScrollPane(sellContent);
+        content.add(scrollPane);
+        content.revalidate();
+        content.repaint();
+
+        currentContent = sellContent;
+    }
+    
+    private void updateContentForBuy() {
+    	 content.removeAll();
+
+    	    ProductDisplay productDisplay = new ProductDisplay(); // Create an instance of ProductDisplay
+
+    	    content.add(productDisplay);
+    	    content.revalidate();
+    	    content.repaint();
+
+    	    currentContent = productDisplay;
+        
+        
+    }
+
+    private void openLearnScreen() {
+        SwingUtilities.invokeLater(LearnScreen::new);
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new HomePageGUI());
     }
